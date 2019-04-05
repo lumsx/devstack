@@ -41,7 +41,17 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
+wp_plugin_repos=(
+    "git@github.com:edly-io/edly-wp-plugin.git"
+)
+
+wp_theme_repos=(
+    "git@github.com:edly-io/edly-wp-theme.git"
+)
+
 name_pattern=".*/(.*).git"
+eldy_repo_pattern=".*edly-io/(.*).git"
+
 
 _checkout ()
 {
@@ -111,9 +121,51 @@ _checkout_and_update_branch ()
     find . -name '*.pyc' -not -path './.git/*' -delete 
 }
 
+
+_get_latest_wp_tag() {
+ curl --silent "https://api.github.com/repos/WordPress/WordPress/tags" | # Get latest release from GitHub>
+    python -c "import sys, json; print json.load(sys.stdin)[0]['name']"
+}
+
 clone ()
 {
     _clone "${repos[@]}"
+
+    WP_PLUGIN_DIR=$DEVSTACK_WORKSPACE/wp_plugins
+    WP_THEME_DIR=$DEVSTACK_WORKSPACE/wp_themes
+
+    [ -d $WP_PLUGIN_DIR ] || mkdir $WP_PLUGIN_DIR
+    [ -d $WP_THEME_DIR ] || mkdir $WP_THEME_DIR
+
+    # clone WP plugins
+    cd $WP_PLUGIN_DIR
+    for repo in "${wp_plugin_repos[@]}"
+    do
+        [[ $repo =~ $eldy_repo_pattern ]]
+        name="${BASH_REMATCH[1]}"
+
+        if [ ! -d $name ]; then
+          git clone $repo --branch develop
+        else
+          printf "The [%s] repo is already checked out. \n" $repo
+        fi
+    done
+
+    # clone themes
+    cd $WP_THEME_DIR
+    for repo in "${wp_theme_repos[@]}"
+    do
+        [[ $repo =~ $eldy_repo_pattern ]]
+        name="${BASH_REMATCH[1]}"
+
+        if [ ! -d $name ]; then
+          git clone $repo --branch develop
+        else
+          printf "The [%s] repo is already checked out. \n" $repo
+        fi
+    done
+
+    cd $DEVSTACK_WORKSPACE/devstack &> /dev/null
 }
 
 clone_private ()

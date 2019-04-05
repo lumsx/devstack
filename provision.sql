@@ -13,6 +13,13 @@ GRANT ALL ON edxmktg.* TO 'edxmktg001'@'%' IDENTIFIED BY 'password';
 CREATE DATABASE IF NOT EXISTS notes;
 GRANT ALL ON notes.* TO 'notes001'@'%' IDENTIFIED BY 'password';
 
+CREATE DATABASE IF NOT EXISTS registrar;
+GRANT ALL ON registrar.* TO 'registrar001'@'%' IDENTIFIED BY 'password';
+
+
+CREATE DATABASE IF NOT EXISTS wordpress;
+GRANT ALL ON wordpress.* TO 'wordpress001'@'%' IDENTIFIED BY 'password';
+
 CREATE DATABASE IF NOT EXISTS edxapp;
 CREATE DATABASE IF NOT EXISTS edxapp_csmh;
 GRANT ALL ON edxapp.* TO 'edxapp001'@'%' IDENTIFIED BY 'password';
