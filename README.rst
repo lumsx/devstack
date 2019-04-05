@@ -1,7 +1,7 @@
-Open edX Devstack |Build Status|
-================================
+Edly's Open edX Devstack
+========================
 
-Get up and running quickly with Open edX services.
+Get up and running quickly with Edly's Open edX services.
 
 If you are seeking info on the Vagrant-based devstack, please see
 https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This

@@ -8,7 +8,7 @@
 # - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
 #   that might be running for the same service.
 
-version: "2.1"
+version: '2.1'
 
 services:
   # Third-party services
@@ -17,8 +17,8 @@ services:
     image: edxops/chrome:${OPENEDX_RELEASE:-latest}
     shm_size: 2g
     ports:
-      - "15900:5900"
-    volumes:  # for file uploads
+      - '15900:5900'
+    volumes: # for file uploads
       - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
@@ -38,8 +38,8 @@ services:
     image: edxops/firefox:${OPENEDX_RELEASE:-latest}
     shm_size: 2g
     ports:
-      - "25900:5900"
-    volumes:  # for file uploads
+      - '25900:5900'
+    volumes: # for file uploads
       - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
       - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
@@ -65,8 +65,8 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     container_name: edx.devstack.mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     image: mysql:5.6
     # ports:
     #   - "3306:3306"
@@ -90,7 +90,7 @@ services:
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18150:18150"
+      - '18150:18150'
 
   discovery:
     command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
@@ -103,11 +103,11 @@ services:
     stdin_open: true
     tty: true
     environment:
-      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      TEST_ELASTICSEARCH_URL: 'http://edx.devstack.elasticsearch:9200'
       ENABLE_DJANGO_TOOLBAR: 1
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18381:18381"
+      - '18381:18381'
     volumes:
       - discovery_assets:/edx/var/discovery/
 
@@ -124,7 +124,7 @@ services:
       ENABLE_DJANGO_TOOLBAR: 0
     image: edxops/ecommerce:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18130:18130"
+      - '18130:18130'
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
@@ -145,8 +145,8 @@ services:
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18000:18000"
-      - "19876:19876" # JS test debugging
+      - '18000:18000'
+      - '19876:19876' # JS test debugging
       # - "18003:18003"
       # - "18031:18031"
     volumes:
@@ -161,16 +161,16 @@ services:
       - mysql
     image: edxops/notes:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18120:18120"
+      - '18120:18120'
     environment:
-      DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
-      DB_NAME: "notes"
-      DB_PASSWORD: "password"
-      DB_PORT: "3306"
-      DB_USER: "notes001"
+      DB_ENGINE: 'django.db.backends.mysql'
+      DB_HOST: 'edx.devstack.mysql'
+      DB_NAME: 'notes'
+      DB_PASSWORD: 'password'
+      DB_PORT: '3306'
+      DB_USER: 'notes001'
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ELASTICSEARCH_URL: 'http://edx.devstack.elasticsearch:9200'
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
@@ -191,8 +191,8 @@ services:
       NO_PYTHON_UNINSTALL: 1
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
     ports:
-      - "18010:18010"
-      - "19877:19877" # JS test debugging
+      - '18010:18010'
+      - '19877:19877' # JS test debugging
       # - "18103:18103"
       # - "18131:18131"
     volumes:
@@ -207,15 +207,27 @@ services:
       - elasticsearch
     image: edxops/forum:${OPENEDX_RELEASE:-latest}
     ports:
-      - "44567:4567"
+      - '44567:4567'
 
   devpi:
     container_name: edx.devstack.devpi
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
     ports:
-      - "3141:3141"
+      - '3141:3141'
     volumes:
       - devpi_data:/data
+
+  wordpress:
+    depends_on:
+      - mysql
+    image: asamolion/edly-wp:latest
+    hostname: wp.devstack.edx
+    container_name: edx.devstack.wp
+    ports:
+      - '8888:80'
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/wp_plugins/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin
+      - ${DEVSTACK_WORKSPACE}/wp_themes/edly-wp-theme:/var/www/html/wp-content/themes/edly-wp-theme
 
 volumes:
   discovery_assets:
