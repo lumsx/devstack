@@ -40,10 +40,10 @@ define( 'DB_COLLATE', '' );
 
 /* That's all, stop editing! Happy blogging. */
 // Edly specific settings
-define('DISCOVERY_API_URL', 'edx.devstack.discovery:18381/api/v1');
-define('LMS_BASE_URL', 'edx.devstack.lms:18000');
-define('EOX_CLIENT_ID', 'edunext');
-define('EOX_CLIENT_SECRET', 'edunext-secret');
+define('DISCOVERY_API_URL', 'http://edx.devstack.discovery:18381/api/v1');
+define('LMS_BASE_URL', 'http://edx.devstack.lms:18000');
+define('EOX_CLIENT_ID', 'discovery-key');
+define('EOX_CLIENT_SECRET', 'discovery-secret');
 define('IS_LOGGED_IN_COOKIE', 'edxloggedin');
 define('USER_INFO_COOKIE', 'edx-user-info');
 
@@ -89,6 +89,7 @@ $table_prefix = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
 
 /* That's all, stop editing! Happy publishing. */
 
