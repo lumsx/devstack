@@ -37,6 +37,13 @@ And to stop the services
 make stop
 ```
 
+## Post Installation steps
+
+Add the following hosts entry to your `/etc/hosts` file
+```
+127.0.0.1     edx.devstack.lms
+```
+
 ## Setting up WordPress
 
 Some WordPress related configuration has to be done manually after the devstack is setup for the first time.
@@ -52,6 +59,7 @@ Some WordPress related configuration has to be done manually after the devstack 
 5. Go to `Plugins -> Installed Plugins` and activate all the plugins.
 6. Go to `Appearance -> Themes` and activate `Edly WordPress Theme`
 7. Enjoy.
+
 
 ## Service URLs
 
