@@ -37,7 +37,7 @@ And to stop the services
 make stop
 ```
 
-## Setting up WordPress
+## Setting up WordPress and Open edX theme
 
 Some WordPress related configuration has to be done manually after the devstack is setup for the first time.
 
@@ -52,6 +52,30 @@ Some WordPress related configuration has to be done manually after the devstack 
 5. Go to `Plugins -> Installed Plugins` and activate all the plugins.
 6. Go to `Appearance -> Themes` and activate `Edly WordPress Theme`
 7. Enjoy.
+
+To setup the Edly edx themes repo.
+
+
+1. Go do the `edly/edX` directory.
+2. Clone [edly-edx-themes](https://github.com/edly-io/edly-edx-themes) in the `src` folder.
+3. Run `sudo chmod -R 777 src/`
+4. Run `cd devstack`
+5. Run `make lms-shell`. This will take you to the docker container for LMS.
+6. Edit the `/edx/app/edxapp/lms.env.json` file in the docker container to the following values.
+```json
+"ENABLE_COMPREHENSIVE_THEMING": true,
+
+"COMPREHENSIVE_THEME_DIRS": [
+    "/edx/src/edly-edx-themes"
+]
+```
+7. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
+8. Exit the docker shell using `Ctrl+D`
+9. Run `make lms-restart`
+10. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
+12. Go to `http://localhost:18000/admin/sites/site/` and add a new site with values `domain` as `localhost:18000` and `display name` as `st-lutherx`.
+13. Go to `http://localhost:18000/admin/theming/sitetheme/` and add a new theme with values `site` as `localhost:18000` and `Theme dir name` as `st-lutherx`.
+14. This should work.
 
 ## Service URLs
 
