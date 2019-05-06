@@ -69,10 +69,11 @@ To setup the Edly edx themes repo.
     "/edx/src/edly-edx-themes"
 ]
 ```
-7. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
-8. Exit the docker shell using `Ctrl+D`
-9. Run `make lms-restart`
-10. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
+7. Run `docker-compose restart lms` in the `/edly/edX` folder.
+8. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
+9. Exit the docker shell using `Ctrl+D`
+10. Run `make lms-restart`
+11. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
 12. Go to `http://localhost:18000/admin/sites/site/` and add a new site with values `domain` as `localhost:18000` and `display name` as `st-lutherx`.
 13. Go to `http://localhost:18000/admin/theming/sitetheme/` and add a new theme with values `site` as `localhost:18000` and `Theme dir name` as `st-lutherx`.
 14. This should work.

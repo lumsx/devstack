@@ -30,7 +30,6 @@ repos=(
     "https://github.com/edx/ecommerce.git"
     "https://github.com/edx/edx-e2e-tests.git"
     "https://github.com/edx/edx-notes-api.git"
-    "https://github.com/edx/edx-platform.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
     "https://github.com/edx/gradebook.git"
@@ -40,6 +39,8 @@ private_repos=(
     # Needed to run whitelabel tests.
     "https://github.com/edx/edx-themes.git"
 )
+
+edx_repo="https://github.com/edly-io/edx-platform.git"
 
 wp_plugin_repos=(
     "git@github.com:edly-io/edly-wp-plugin.git"
@@ -129,10 +130,22 @@ _get_latest_wp_tag() {
 
 clone ()
 {
+
     _clone "${repos[@]}"
 
     WP_PLUGIN_DIR=$DEVSTACK_WORKSPACE/wp_plugins
     WP_THEME_DIR=$DEVSTACK_WORKSPACE/wp_themes
+
+    # clone Edly edx-platform
+    cd $DEVSTACK_WORKSPACE
+    if [ ! -d $DEVSTACK_WORKSPACE/edx-platform ]; then
+        git clone $edx_repo --branch develop
+    else
+        printf "The [%s] repo is already checked out. \n" $repo
+    fi
+
+
+
 
     [ -d $WP_PLUGIN_DIR ] || mkdir $WP_PLUGIN_DIR
     [ -d $WP_THEME_DIR ] || mkdir $WP_THEME_DIR

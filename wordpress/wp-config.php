@@ -47,6 +47,11 @@ define('EOX_CLIENT_SECRET', 'edunext-secret');
 define('IS_LOGGED_IN_COOKIE', 'edxloggedin');
 define('USER_INFO_COOKIE', 'edx-user-info');
 
+define('ENROLLMENT_API_URL', LMS_BASE_URL . '/api/enrollment/v1');
+define('ENROLLMENT_STATUS_API_URL', LMS_BASE_URL . '/api/enrollment/v1/enrollment');
+define('COURSE_DASHBOARD_URL', LMS_BASE_URL . '/dashboard');
+define('COURSE_REGISTER_URL', LMS_BASE_URL . '/register');
+define('COURSE_DETAIL_URL', LMS_BASE_URL . '/courses');
 
 /**#@+
  * Authentication Unique Keys and Salts.
