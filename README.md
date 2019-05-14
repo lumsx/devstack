@@ -6,9 +6,19 @@ This is a custom fork of Open edX's docker based development environment, frankl
 
 ## Prerequisites
 
-- Your local machine should be configured to clone from **github using SSH**. Also, you need access to edly's private repos.
-- A python virtualenv in which all the python dependencies will be installed (I recommend [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io))
-- [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) 17.06+ CE
+-   Your local machine should be configured to clone from **github using SSH**. Also, you need access to edly's private repos.
+-   A python virtualenv in which all the python dependencies will be installed (I recommend [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io))
+-   [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) 17.06+ CE
+
+## Environment configuration
+
+The `OPENEDX_RELEASE` variable should be set in your \*nix environment. Use the following command to set it.
+
+```
+$ export OPENEDX_RELEASE=ironwood.master
+```
+
+To avoid doing this everytime, add the above line to your bash or zsh profile.
 
 ## Quick Start
 
@@ -43,10 +53,10 @@ Some WordPress related configuration has to be done manually after the devstack 
 
 1. Visit [localhost:8888](http://localhost:8888). It should prompt the WordPress installation screen.
 2. Fill it in with the following values
-   - Site name: Edly
-   - Username: edx
-   - Password: edx
-   - Email: edx@example.com
+    - Site name: Edly
+    - Username: edx
+    - Password: edx
+    - Email: edx@example.com
 3. Click `Install` and the login with the same credentials.
 4. You should now be in the WordPress admin dashboard.
 5. Go to `Plugins -> Installed Plugins` and activate all the plugins.
@@ -55,13 +65,13 @@ Some WordPress related configuration has to be done manually after the devstack 
 
 To setup the Edly edx themes repo.
 
-
 1. Go do the `edly/edX` directory.
 2. Clone [edly-edx-themes](https://github.com/edly-io/edly-edx-themes) in the `src` folder.
 3. Run `sudo chmod -R 777 src/`
 4. Run `cd devstack`
 5. Run `make lms-shell`. This will take you to the docker container for LMS.
 6. Edit the `/edx/app/edxapp/lms.env.json` file in the docker container to the following values.
+
 ```json
 "ENABLE_COMPREHENSIVE_THEMING": true,
 
@@ -69,10 +79,12 @@ To setup the Edly edx themes repo.
     "/edx/src/edly-edx-themes"
 ]
 ```
-7. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
-8. Exit the docker shell using `Ctrl+D`
-9. Run `make lms-restart`
-10. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
+
+7. Run `docker-compose restart lms` in the `/edly/edX` folder.
+8. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
+9. Exit the docker shell using `Ctrl+D`
+10. Run `make lms-restart`
+11. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
 12. Go to `http://localhost:18000/admin/sites/site/` and add a new site with values `domain` as `localhost:18000` and `display name` as `st-lutherx`.
 13. Go to `http://localhost:18000/admin/theming/sitetheme/` and add a new theme with values `site` as `localhost:18000` and `Theme dir name` as `st-lutherx`.
 14. This should work.
