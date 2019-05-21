@@ -109,7 +109,7 @@ _clone ()
             if [ "${SHALLOW_CLONE}" == "1" ]; then
                 git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
             else
-                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
+                git clone -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
             fi
         fi
     done
