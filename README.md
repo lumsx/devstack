@@ -12,10 +12,14 @@ This is a custom fork of Open edX's docker based development environment, frankl
 
 ## Environment configuration
 
-The `OPENEDX_RELEASE` variable should be set in your \*nix environment. Use the following command to set it.
+The `OPENEDX_RELEASE` variable should be set in your \*nix environment. Use the following command to set it. Currently, `ironwood.master` and `hawthorn.master` releases of Open edX are supported.
 
 ```
-$ export OPENEDX_RELEASE=ironwood.master
+export OPENEDX_RELEASE=ironwood.master
+
+OR
+
+export OPENEDX_RELEASE=hawthorn.master
 ```
 
 To avoid doing this everytime, add the above line to your bash or zsh profile.
