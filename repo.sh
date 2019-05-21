@@ -32,8 +32,11 @@ repos=(
     "https://github.com/edx/edx-notes-api.git"
     "https://github.com/edx/xqueue.git"
     "https://github.com/edx/edx-analytics-pipeline.git"
-    "https://github.com/edx/gradebook.git"
 )
+
+if [ "${OPENEDX_RELEASE}" == "ironwood.master" ]; then
+    repos+=("https://github.com/edx/gradebook.git")
+fi
 
 private_repos=(
     # Needed to run whitelabel tests.

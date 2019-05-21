@@ -7,6 +7,7 @@ RUN set -ex; \
 	\
 	apt-get update; \
 	apt-get install -y \
+	    vim \
 		unzip \
 		libjpeg-dev \
 		libpng-dev \
@@ -66,7 +67,6 @@ RUN set -ex; \
 
 RUN cp -R /usr/src/wordpress/. $WORDPRESS_DIR
 
-ADD --chown=www-data:www-data "https://downloads.wordpress.org/plugin/edunext-openedx-integrator.1.9.0.zip" $WORDPRESS_DIR/wp-content/plugins/
 ADD --chown=www-data:www-data "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.7.12.zip" $WORDPRESS_DIR/wp-content/plugins/
 ADD --chown=www-data:www-data "https://downloads.wordpress.org/plugin/elementor.2.5.14.zip" $WORDPRESS_DIR/wp-content/plugins/
 ADD --chown=www-data:www-data "https://downloads.wordpress.org/plugin/classic-editor.1.4.zip" $WORDPRESS_DIR/wp-content/plugins/
