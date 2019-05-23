@@ -31,6 +31,7 @@ git clone git@github.com:edly-io/devstack.git
 cd devstack
 make requirements
 make dev.clone
+make dev.checkout
 make pull
 make dev.provision
 ```
@@ -80,8 +81,8 @@ To setup the Edly edx themes repo.
 ]
 ```
 
-7. Run `docker-compose restart lms` in the `/edly/edX` folder.
-8. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
+7. Run `docker-compose restart lms` in the `/edly/edX/devstack` folder.
+8. Enter the LMS docker shell through `make lms-shell`. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
 9. Exit the docker shell using `Ctrl+D`
 10. Run `make lms-restart`
 11. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
@@ -93,7 +94,7 @@ To setup the Edly edx themes repo.
 
 | Service               | URL                                                              |
 | --------------------- | ---------------------------------------------------------------- |
-| WordPress             | [http:localhost:18888](http:localhost:18888)                     |
+| WordPress             | [http:localhost:18888](http:localhost:8888)                      |
 | LMS                   | [http:localhost:18000](http:localhost:18000)                     |
 | CMS / Studio          | [http:localhost:18010](http:localhost:18010)                     |
 | Catalog / Discovery   | [http:localhost:18381/api-docs](http:localhost:18381/api-docs)   |
