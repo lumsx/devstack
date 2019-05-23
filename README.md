@@ -12,10 +12,16 @@ This is a custom fork of Open edX's docker based development environment, frankl
 
 ## Environment configuration
 
-The `OPENEDX_RELEASE` variable should be set in your \*nix environment. Use the following command to set it.
+The `OPENEDX_RELEASE` variable should be set in your \*nix environment. Use the following command to set it. Currently the devstack supports `ironwood` and `hawthorn` releases of Open edX.
 
 ```
-$ export OPENEDX_RELEASE=ironwood.master
+export OPENEDX_RELEASE=ironwood.master
+```
+
+OR
+
+```
+export OPENEDX_RELEASE=hawthorn.master
 ```
 
 To avoid doing this everytime, add the above line to your bash or zsh profile.
@@ -67,11 +73,12 @@ Some WordPress related configuration has to be done manually after the devstack 
 To setup the Edly edx themes repo.
 
 1. Go do the `edly/edX` directory.
-2. Clone [edly-edx-themes](https://github.com/edly-io/edly-edx-themes) in the `src` folder.
-3. Run `sudo chmod -R 777 src/`
-4. Run `cd devstack`
-5. Run `make lms-shell`. This will take you to the docker container for LMS.
-6. Edit the `/edx/app/edxapp/lms.env.json` file in the docker container to the following values.
+2. Run `sudo chmod -R 777 src/`
+3. Clone [edly-edx-themes](https://github.com/edly-io/edly-edx-themes) in the `src` folder.
+4. Run `sudo chmod -R 777 src/`
+5. Run `cd devstack`
+6. Run `make lms-shell`. This will take you to the docker container for LMS.
+7. Edit the `/edx/app/edxapp/lms.env.json` file in the docker container to the following values.
 
 ```json
 "ENABLE_COMPREHENSIVE_THEMING": true,
@@ -81,14 +88,14 @@ To setup the Edly edx themes repo.
 ]
 ```
 
-7. Run `docker-compose restart lms` in the `/edly/edX/devstack` folder.
-8. Enter the LMS docker shell through `make lms-shell`. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
-9. Exit the docker shell using `Ctrl+D`
-10. Run `make lms-restart`
-11. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
-12. Go to `http://localhost:18000/admin/sites/site/` and add a new site with values `domain` as `localhost:18000` and `display name` as `st-lutherx`.
-13. Go to `http://localhost:18000/admin/theming/sitetheme/` and add a new theme with values `site` as `localhost:18000` and `Theme dir name` as `st-lutherx`.
-14. This should work.
+8. Run `docker-compose restart lms` in the `/edly/edX/devstack` folder.
+9. Enter the LMS docker shell through `make lms-shell`. Run `paver update_assets` in the docker shell from the `/edx/app/edxapp/edx-platform` folder.
+10. Exit the docker shell using `Ctrl+D`
+11. Run `make lms-restart`
+12. Go to `http://localhost:18000/admin` and login using `edx` and `edx`.
+13. Go to `http://localhost:18000/admin/sites/site/` and add a new site with values `domain` as `localhost:18000` and `display name` as `st-lutherx`.
+14. Go to `http://localhost:18000/admin/theming/sitetheme/` and add a new theme with values `site` as `localhost:18000` and `Theme dir name` as `st-lutherx`.
+15. This should work.
 
 ## Service URLs
 
