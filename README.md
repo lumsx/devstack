@@ -93,7 +93,7 @@ To setup the Edly edx themes repo.
 
 | Service               | URL                                                              |
 | --------------------- | ---------------------------------------------------------------- |
-| WordPress             | [http:localhost:18888](http:localhost:18888)                     |
+| WordPress             | [http:localhost:8888](http:localhost:8888)                     |
 | LMS                   | [http:localhost:18000](http:localhost:18000)                     |
 | CMS / Studio          | [http:localhost:18010](http:localhost:18010)                     |
 | Catalog / Discovery   | [http:localhost:18381/api-docs](http:localhost:18381/api-docs)   |
