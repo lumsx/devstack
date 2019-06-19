@@ -34,6 +34,12 @@ private_repos=(
     "https://github.com/edx/edx-themes.git"
 )
 
+edly_repos=(
+    "https://github.com/edly-io/edly-wp-plugin.git"
+    "https://github.com/edly-io/edly-wp-theme.git"
+    "https://github.com/edly-io/edly-edx-themes.git"
+)
+
 name_pattern=".*/(.*).git"
 
 _checkout ()
@@ -89,17 +95,14 @@ _clone ()
             else
                 git clone $repo
             fi
-            if [ -n "${OPENEDX_RELEASE}" ]; then
-                git checkout open-release/${OPENEDX_RELEASE}
-            fi
         fi
     done
-    cd - &> /dev/null
 }
 
 clone ()
 {
-    _clone "${repos[@]}"
+    _clone "${repos[@]}" "${edly_repos[@]}"
+    _checkout "${repos[@]}"
 }
 
 clone_private ()
@@ -110,7 +113,7 @@ clone_private ()
 reset ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in "${repos[@]}" "${edly_repos[@]}"
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
@@ -127,7 +130,7 @@ reset ()
 status ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in ["${repos[@]}" "${edly_repos[@]}"]
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"

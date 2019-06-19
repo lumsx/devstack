@@ -217,6 +217,21 @@ services:
     volumes:
       - devpi_data:/data
 
+  wordpress:
+    container_name: edx.devstack.wordpress
+    image: wordpress
+    environment:
+          WORDPRESS_DB_HOST: edx.devstack.mysql
+          WORDPRESS_DB_NAME: 'wordpress'
+          WORDPRESS_DB_USER: 'wordpress001'
+          WORDPRESS_DB_PASSWORD: 'password'
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
+
+
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:

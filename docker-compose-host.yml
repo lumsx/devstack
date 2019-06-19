@@ -33,6 +33,10 @@ services:
   forum:
     volumes:
       - ${DEVSTACK_WORKSPACE}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+  wordpress:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme:/var/www/html/wp-content/themes/edly-wp-theme:cached
       
 volumes:
   credentials_node_modules:
