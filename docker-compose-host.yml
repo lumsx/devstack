@@ -37,6 +37,11 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/gradebook:/edx/app/gradebook:cached
       - gradebook_node_modules:/edx/app/gradebook/node_modules
+  wordpress:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme:/var/www/html/wp-content/themes/edly-wp-theme:cached
+
       
 volumes:
   credentials_node_modules:

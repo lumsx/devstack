@@ -240,6 +240,19 @@ services:
       - "1994:1994"
     environment:
       - NODE_ENV=development
+
+  wordpress:
+    container_name: edx.devstack.wordpress
+    image: wordpress
+    environment:
+          WORDPRESS_DB_HOST: edx.devstack.mysql
+          WORDPRESS_DB_NAME: 'wordpress'
+          WORDPRESS_DB_USER: 'wordpress001'
+          WORDPRESS_DB_PASSWORD: 'password'
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
       
 volumes:
   discovery_assets:

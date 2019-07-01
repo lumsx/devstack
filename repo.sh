@@ -36,6 +36,13 @@ repos=(
     "https://github.com/edx/gradebook.git"
 )
 
+edly_repos=(
+    "https://github.com/edly-io/edly-wp-plugin.git"
+    "https://github.com/edly-io/edly-wp-theme.git"
+    "https://github.com/edly-io/edly-edx-themes.git"
+)
+
+
 private_repos=(
     # Needed to run whitelabel tests.
     "https://github.com/edx/edx-themes.git"
@@ -73,6 +80,7 @@ _clone ()
 {
     # for repo in ${repos[*]}
     repos_to_clone=("$@")
+
     for repo in "${repos_to_clone[@]}"
     do
         # Use Bash's regex match operator to capture the name of the repo.
@@ -80,22 +88,17 @@ _clone ()
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
 
-        # If a directory exists and it is nonempty, assume the repo has been checked out
-        # and only make sure it's on the required branch
+        # If a directory exists and it is nonempty, assume the repo has been checked out.
         if [ -d "$name" -a -n "$(ls -A "$name" 2>/dev/null)" ]; then
-            printf "The [%s] repo is already checked out. Checking for updates.\n" $name
-            cd ${DEVSTACK_WORKSPACE}/${name}
-            _checkout_and_update_branch
-            cd ..
+            printf "The [%s] repo is already checked out. Continuing.\n" $name
         else
             if [ "${SHALLOW_CLONE}" == "1" ]; then
-                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true --depth=1 ${repo}
+                git clone --depth=1 $repo
             else
-                git clone --single-branch -b ${OPENEDX_GIT_BRANCH} -c core.symlinks=true ${repo}
+                git clone $repo
             fi
         fi
     done
-    cd - &> /dev/null
 }
 
 _checkout_and_update_branch ()
@@ -113,7 +116,8 @@ _checkout_and_update_branch ()
 
 clone ()
 {
-    _clone "${repos[@]}"
+    _clone "${repos[@]}" "${edly_repos[@]}"
+    _checkout "${repos[@]}"
 }
 
 clone_private ()
@@ -124,7 +128,7 @@ clone_private ()
 reset ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in "${repos[@]}" "${edly_repos[@]}"
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
@@ -141,7 +145,7 @@ reset ()
 status ()
 {
     currDir=$(pwd)
-    for repo in ${repos[*]}
+    for repo in ["${repos[@]}" "${edly_repos[@]}"]
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"

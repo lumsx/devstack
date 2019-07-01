@@ -62,6 +62,9 @@ dev.provision: | check-memory dev.clone dev.provision.run stop ## Provision dev 
 
 dev.provision.xqueue: | check-memory dev.provision.xqueue.run stop stop.xqueue  # Provision XQueue; run after other services are provisioned
 
+dev.wordpress.provision:
+	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-host.yml" ./provision-wordpress.sh
+
 dev.provision.xqueue.run:
 	DOCKER_COMPOSE_FILES="-f docker-compose.yml -f docker-compose-xqueue.yml" $(WINPTY) bash ./provision-xqueue.sh
 
