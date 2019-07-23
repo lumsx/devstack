@@ -92,6 +92,10 @@ All of the services can be run by following the steps below.
     .. code:: sh
 
        make dev.provision
+    
+    Run for WordPress plugins setup
+    
+       ./provision-wordpress.sh
 
 13. Run the devstack.
 
