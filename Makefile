@@ -295,3 +295,10 @@ check-memory: ## Check if enough memory has been allocated to Docker
 
 stats: ## Get per-container CPU and memory utilization data
 	docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+stop-extra:
+	docker stop edx.devstack.credentials
+	docker stop edx.devstack.firefox
+	docker stop edx.devstack.chrome
+	docker stop edx.devstack.forum
+	docker stop edx.devstack.edx_notes_api
