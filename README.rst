@@ -6,7 +6,7 @@ Get up and running quickly with Open edX services.
 Prerequisites
 -------------
 
-This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
+This project requires `DockerCE`_ **17.06+**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
 You will also need the following installed:
@@ -18,13 +18,13 @@ You will also need the following installed:
 Getting Started
 ---------------
 
-All of the services can be run by following the steps below. 
+All of the services can be run by following the steps below.
 
 1. Create a new vitualenv using the following command. Install virtualenv using "pip install virtualenv" if dnt have it.
 
    .. code:: sh
 
-       virtualenv devstack-env ()
+       virtualenv devstack-env
 
 2. Activate the virtualenv
 
@@ -38,11 +38,12 @@ All of the services can be run by following the steps below.
 
        make requirements
 
-4. Check if env variable "OPENEDX_RELEASE" is already set using (update the value to 'hawthorn.master' if set to a different value)(if first time installation use the following command to set the variable) 
+4. Check if env variable "OPENEDX_RELEASE" is already set using (update the value to 'hawthorn.master' if set to a different value)(if first time installation use the following command to set the variable)
 
    .. code:: sh
 
        echo "export OPENEDX_RELEASE=hawthorn.master" >> ~/.bashrc && source ~/.bashrc
+
  Note* : for mac you can exter the value in .bash_profie
 
 5. Clone the all the service repos
@@ -51,58 +52,28 @@ All of the services can be run by following the steps below.
 
        make dev.clone
 
-6. Check if you have any existing edX images
-
-   .. code:: sh
-
-       docker ps -a --filter "name=edx"
-
-7. Check if you have any existing wordpress
-
-   .. code:: sh
-
-       docker ps -a --filter "name=wordpress"
-
-8. Remove all existing edX images if there are any
-
-   .. code:: sh
-
-       docker rmi $(docker images |grep 'edx')
-       
-9. Remove all existing wordpress images if there are any.
-
-   .. code:: sh
-
-       docker rmi $(docker images |grep 'wordpress')
-
-10. just to make sure :).
-
-    .. code:: sh
-
-       make destroy
-
-11. Pull the latest Images.
+6. Pull the latest Images.
 
     .. code:: sh
 
        make pull
 
-12. Run the provisions.
+7. Run the provisions.
 
     .. code:: sh
 
        make dev.provision
-    
-    Run for WordPress plugins setup
-    
-       ./provision-wordpress.sh
 
-13. Run the devstack.
+8 Run the devstack.
 
     .. code:: sh
 
        make dev.up
-       
+
+9. Run the wordpress provision
+    .. code:: sh
+
+       ./provision-wordpress.sh
 
 
 After the services have started, if you need shell access to one of the
@@ -222,11 +193,11 @@ do the following stuff.
 .. code:: sh
 
     apt-get update
-    
+
 Note* : If you are facing some uploading images issues on mac go to wordpress shell and set appropriate permissions for uploads folder (ie, "chown www-data:www-data -R uploads")
-    
-Note** : If you are facing some home page issues with elementor. Go to elementor wordpress setting and hard code the default values and save. 
-    
+
+Note** : If you are facing some home page issues with elementor. Go to elementor wordpress setting and hard code the default values and save.
+
 Useful Commands
 ---------------
 
@@ -879,6 +850,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Docker Compose: https://docs.docker.com/compose/
 .. _Docker for Mac: https://docs.docker.com/docker-for-mac/
 .. _Docker for Windows: https://docs.docker.com/docker-for-windows/
+.. _DockerCE: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 .. _Docker Sync: https://github.com/EugenMayer/docker-sync/wiki
 .. _Docker Sync installation instructions: https://github.com/EugenMayer/docker-sync/wiki/1.-Installation
 .. _cached consistency mode for volume mounts: https://docs.docker.com/docker-for-mac/osxfs-caching/
