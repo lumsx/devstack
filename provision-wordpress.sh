@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 set -o pipefail
 set -x
@@ -7,13 +8,13 @@ docker exec -t edx.devstack.wordpress  bash -c 'cd wp-content/plugins/ && rm -rf
 
 echo -e "${GREEN} Install required Plugins...${NC}"
 docker exec -t edx.devstack.wordpress  bash -c '
-cd wp-content/plugins/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && 
-php wp-cli.phar plugin install advanced-custom-fields --activate --allow-root && 
-php wp-cli.phar plugin install edunext-openedx-integrator --activate --allow-root && 
-php wp-cli.phar plugin install elementor --activate --allow-root && 
+cd wp-content/plugins/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
+php wp-cli.phar plugin install advanced-custom-fields --activate --allow-root &&
+php wp-cli.phar plugin install edunext-openedx-integrator --activate --allow-root &&
+php wp-cli.phar plugin install elementor --activate --allow-root &&
 php wp-cli.phar plugin install classic-editor --activate --allow-root &&
-php wp-cli.phar plugin install contact-form-7 --activate --allow-root && 
-php wp-cli.phar plugin install mailchimp-for-wp --activate --allow-root && 
+php wp-cli.phar plugin install contact-form-7 --activate --allow-root &&
+php wp-cli.phar plugin install mailchimp-for-wp --activate --allow-root &&
 php wp-cli.phar plugin install all-in-one-wp-migration --allow-root &&
 php wp-cli.phar plugin activate edly-wp-plugin --allow-root &&
 rm -rf wp-cli.phar &&
@@ -27,14 +28,14 @@ chown www-data:www-data -R all-in-one-wp-migration'
 
 echo -e "${GREEN} Enable edly-wp-theme...${NC}"
 docker exec -t edx.devstack.wordpress  bash -c '
-cd wp-content/themes/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && 
-php wp-cli.phar theme get edly-wp-theme --allow-root && 
-php wp-cli.phar theme activate edly-wp-theme --allow-root && 
+cd wp-content/themes/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
+php wp-cli.phar theme get edly-wp-theme --allow-root &&
+php wp-cli.phar theme activate edly-wp-theme --allow-root &&
 rm -rf wp-cli.phar
 '
 echo -e "${GREEN} Update Wordpress Configurations...${NC}"
 docker exec -t edx.devstack.wordpress  bash -c "
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && 
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
 php wp-cli.phar config set 'DISCOVERY_API_URL' 'http://edx.devstack.discovery:18381/api/v1' --allow-root &&
 php wp-cli.phar config set 'LMS_BASE_URL' 'http://edx.devstack.lms:18000' --allow-root &&
 php wp-cli.phar config set 'ENROLLMENT_API_URL' 'http://edx.devstack.lms:18000/api/enrollment/v1' --allow-root &&
