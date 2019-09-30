@@ -1,36 +1,13 @@
-Open edX Devstack |Build Status|
+Edly Devstack |Build Status|
 ================================
 
-Get up and running quickly with Open edX services.
+Get up and running quickly with Edly services.
 
-If you are seeking info on the Vagrant-based devstack, please see
-https://openedx.atlassian.net/wiki/display/OpenOPS/Running+Devstack. This
-project is meant to replace the traditional Vagrant-based devstack with a
-multi-container approach driven by `Docker Compose`_. It is still in the
-beta testing phase.
-
-Updated Documentation
----------------------
-
-These docs might be out of date. Please see the updated docs at https://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/installation/index.html.
-
-Support
--------
-
-Tickets or issues should be filed in Jira under the platform project:
-https://openedx.atlassian.net/projects/PLAT/issues
-
-FYI
----
-
-You should run all ``make`` commands described below on your local machine, *not*
-from within a VM (virtualenvs are ok, and in fact recommended) as these commands
-are for standing up a new docker based VM.
 
 Prerequisites
 -------------
 
-This project requires **Docker 17.06+ CE**.  We recommend Docker Stable, but
+This project requires `docker-ce`_ **17.06+**.  We recommend Docker Stable, but
 Docker Edge should work as well.
 
 **NOTE:** Switching between Docker Stable and Docker Edge will remove all images and
@@ -41,6 +18,19 @@ For macOS users, please use `Docker for Mac`_. Previous Mac-based tools (e.g.
 boot2docker) are *not* supported.
 
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
+
+
+**NOTE:** After installing docker, user must be added to user group ``docker``
+
+.. code:: sh
+
+   sudo usermod -aG docker <USERNAME>
+
+then reboot the system and check if docker is installed correctly by running the command:
+
+.. code:: sh
+
+    docker --version
 
 Linux users should *not* be using the ``overlay`` storage driver.  ``overlay2``
 is tested and supported, but requires kernel version 4.0+.  Check which storage
@@ -79,36 +69,58 @@ you should configure Docker with a sufficient
 amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
 
-1. Install the requirements inside of a `Python virtualenv`_.
 
-   .. code:: sh
+1. Make a directory for Edly devstack
 
-       make requirements
+.. code:: sh
 
-2. The Docker Compose file mounts a host volume for each service's executing
+    mkdir edly
+    cd edly
+
+2. Make a ``virutalenv`` for edly and activate it.
+
+.. code:: sh
+
+    virtualenv -p python3 venv
+    source venv/bin/activate
+
+3. Clone Edly devstack and checkout ``edly/i`` branch and export ``OPENEDX_RELEASE`` environment variable.
+
+.. code:: sh
+
+    git clone https://github.com/edly-io/devstack.git
+    cd devstack
+    git checkout edly/i
+    export OPENEDX_RELEASE=ironwood.master
+
+4. Install the requirements.
+
+.. code:: sh
+
+    make requirements
+
+5. The Docker Compose file mounts a host volume for each service's executing
    code. The host directory defaults to be a sibling of this directory. For
    example, if this repo is cloned to ``~/workspace/devstack``, host volumes
    will be expected in ``~/workspace/course-discovery``,
    ``~/workspace/ecommerce``, etc. These repos can be cloned with the command
    below.
 
-   .. code:: sh
+.. code:: sh
 
-       make dev.clone
+    make dev.clone
 
-   You may customize where the local repositories are found by setting the
-   DEVSTACK\_WORKSPACE environment variable.
-   
-   Be sure to share the cloned directories in the Docker -> Preferences... ->
-   File Sharing box.
+You may customize where the local repositories are found by setting the ``DEVSTACK_WORKSPACE`` environment variable.
 
-3. Pull any changes made to the various images on which the devstack depends.
+Be sure to share the cloned directories in the Docker -> Preferences... -> File Sharing box.
 
-   .. code:: sh
+6. Pull any changes made to the various images on which the devstack depends.
 
-       make pull
+.. code:: sh
 
-4. Run the provision command, if you haven't already, to configure the various
+    make pull
+
+7. Run the provision command, if you haven't already, to configure the various
    services with superusers (for development without the auth service) and
    tenants (for multi-tenancy).
 
@@ -119,36 +131,226 @@ a minimum of 2 CPUs and 6GB of memory works well.
    the services directly via Django admin at the ``/admin/`` path, or login via
    single sign-on at ``/login/``.
 
-   Default:
+.. code:: sh
 
-   .. code:: sh
-
-       make dev.provision
-
-   Provision using `docker-sync`_:
-
-   .. code:: sh
-
-       make dev.sync.provision
+    make dev.provision
 
 
-5. Start the services. This command will mount the repositories under the
+8. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
 
-   Default:
+.. code:: sh
 
-   .. code:: sh
+    make dev.up
 
-       make dev.up
 
-   Start using `docker-sync`_:
+Wordpress Setup
+---------------
 
-   .. code:: sh
+Gulp should be installed before proceeding further (you may need to skip sudo if you are using nvm).
 
-       make dev.sync.up
+.. code:: sh
 
+    sudo npm i -g gulp-cli
+
+1. Install php and composer in host machine.
+
+.. code:: sh
+
+    apt-get install php7.2
+    curl -s https://getcomposer.org/installer | php
+    mv composer.phar /usr/bin/composer
+
+
+then install composer in wordpress container.
+
+.. code:: sh
+
+    make wordpress-shell
+    curl -s https://getcomposer.org/installer | php
+    mv composer.phar /usr/local/bin/composer
+
+
+2. Change the owner of ``wp-content`` directory inside docker container.
+
+.. code:: sh
+
+    chown -R www-data:www-data wp-content
+
+
+3. Install the requirements for ``edly-wp-theme`` and ``edly-wp-plugin`` inside wordpress shell. But before doing that, Change the owner of the directories as shown below.
+
+.. code:: sh
+
+    cd /var/www/html/wp-content/plugins/edly-wp-plugin
+    composer install
+
+    cd /var/www/html/wp-content/themes/edly-wp-theme
+    composer install
+
+    exit
+
+
+4. Visit ``localhost:8888``. It should prompt the WordPress installation screen.
+5. Fill it in with the following values
+
+.. code:: sh
+
+        Site name: Edly
+        Username: edx
+        Password: edx
+        Email: edx@example.com
+
+6. Click Install and then login with the same credentials.
+7. Change the permissions of ``edly-wp-plugin`` and ``edly-wp-theme``.
+
+.. code:: sh
+
+    cd ..
+    sudo chmod 0777  edly-wp-plugin -R
+    sudo chmod 0777  edly-wp-theme -R
+    cd devstack
+
+7. Run wordpress provsion.
+
+.. code:: sh
+
+    ./provision-wordpress.sh
+
+**Note** (For Linux): If you face an error related to xml while running the provision, run the following command:
+
+.. code:: sh
+
+        sudo apt-get install php7.2-xml
+
+and then run the provision again.
+
+
+To setup **Wordpress Pages** (Home, Blog, Courses, Instructors, About, Contact, FAQ) go to Wordpress panel and do the following steps for each page
+
+- Go to "Pages" -> "Add New" page.
+- Add page title.
+- In "Page Attributes" section and click on "Template" select field. Select the appropriate template for the page.
+- Publish the Page.
+- Now click on "Edit with Elementor" button.
+- On Elementor page, add any new templates or use existing ones for widgets if required, apply required changes (Images and sections) and click "Publish".
+
+Now your page is published.
+
+Steps to **setup ``Home``** page are shown below for explainatory purposes.
+
+1. Log into WordPress admin panel.
+2. Go to "All Pages" -> "Add New" page.
+3. Set the title "Home".
+4. Select "Home" template from "Template" select field.
+5. Click on "Edit with Elementor" button.
+6. In the widget area, click on ``directory`` icon.
+7. Go to "My Template" tab.
+8. Click on "Import Template" icon in upper left corner of the section
+9. Now select ``<devstack-dir>/edly-wp-theme/config-files/elementor-home.json`` file and import it.
+10. Click on "Insert" button for ``Home`` template that we have just imported.
+11. Click on "Edit Section" icon of the first widget appeared.
+12. From the sidebar, go to "style" tab and upload an image of your choice.
+13. Click on "Publish" button to save changes in Elementor.
+14. Click on "Exit to Dashboard" from side menu.
+15. Publish the page.
+
+Now we can repeat the steps for the pages we want to setup.
+
+To set the Home page we just setup as **default home page** perform the following steps.
+
+1. Log into WordPress admin panel.
+2. Go to "Appearance" -> "Customize" page.
+3. Click on "Homepage settings"
+4. Select "A static page" option.
+5. Select "Home" in Homepage field.
+6. Click publish.
+
+To add **Course Additional Fields** follow the steps below:
+
+1. Log into WordPress admin panel.
+2. Go to "Custom Fields" -> "Tools" page.
+3. In "Import Field Groups", select and import ``<devstack>/edly-wp-theme/config-files/acf-export-english.json`` file.
+
+Load WordPress dump for automatic Configurations
+------------------------------------------------
+To load the wordpress conifguration dump, you need ``All-in-one`` WordPress plugin.
+
+1. Go to "All-in-on WP Migration" -> "import" page.
+2. Select "Import from" -> "File" and select ``<devstack>/dump.wpress`` file.
+
+
+Setup Edly Open edX theme
+-------------------------
+
+1. Go do the edly directory.
+2. Go to devstack directory and get into lms container.
+
+.. code:: sh
+
+    cd devstack
+    make lms-shell
+
+
+3. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes"
+    ]
+
+Exit from the container using the ``Ctrl-D`` or ``exit`` command.
+
+4. Run docker-compose restart lms in the ``/edly/edX/devstack`` folder.
+5. Enter the LMS docker shell through ``make lms-shell``. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+
+6. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+7. Restart lms container.
+
+.. code:: sh
+
+    make lms-restart
+
+8. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
+9. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
+10. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
+
+
+Enable Marketing URLs
+---------------------
+
+1. Go to lms container.
+
+.. code:: sh
+
+    make lms-shell
+    vim ../lms.env.json
+
+and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
+
+2. Add the following URLs in ``edx-platform/lms/env/devstack_docker.py``
+
+.. code:: python
+
+    MKTG_URLS = {
+        ...
+            "NAV_MENU": "wp-json/edly-wp-routes/nav-menu",
+            "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
+        }
+
+
+Other useful commands
+---------------------
 
 After the services have started, if you need shell access to one of the
 services, run ``make <service>-shell``. For example to access the
@@ -253,11 +455,11 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
    .. code:: sh
 
      make analytics-pipeline-shell
-    
+
    - To see logs from containers running in detached mode, you can either use
      "Kitematic" (available from the "Docker for Mac" menu), or by running the
      following command:
-    
+
       .. code:: sh
 
         make logs
@@ -268,9 +470,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
       .. code:: sh
 
         make namenode-logs
-    
+
    - To reset your environment and start provisioning from scratch, you can run:
-    
+
       .. code:: sh
 
         make destroy
@@ -278,9 +480,9 @@ analyticstack ( e.g. lms, studio etc ) consider setting higher memory.
      **NOTE:** Be warned! This will remove all the containers and volumes
      initiated by this repository and all the data ( in these docker containers )
      will be lost.
-    
+
    - For information on all the available ``make`` commands, you can run:
-    
+
       .. code:: sh
 
         make help
@@ -475,7 +677,7 @@ To access a MySQL or Mongo shell, run the following commands, respectively:
    mysql
 
 .. code:: sh
-    
+
    make mongo-shell
    mongo
 
@@ -1026,6 +1228,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _devpi documentation: docs/devpi.rst
 .. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
+.. _docker-ce: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
     :target: https://travis-ci.org/edx/devstack
     :alt: Travis
