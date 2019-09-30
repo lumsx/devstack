@@ -40,6 +40,7 @@ edly_repos=(
     "https://github.com/edly-io/edly-wp-plugin.git"
     "https://github.com/edly-io/edly-wp-theme.git"
     "https://github.com/edly-io/edly-edx-themes.git"
+    "https://github.com/edly-io/edly-panel-frontend.git"
 )
 
 
@@ -111,7 +112,7 @@ _checkout_and_update_branch ()
         git fetch origin ${OPENEDX_GIT_BRANCH}:${OPENEDX_GIT_BRANCH}
         git checkout ${OPENEDX_GIT_BRANCH}
     fi
-    find . -name '*.pyc' -not -path './.git/*' -delete 
+    find . -name '*.pyc' -not -path './.git/*' -delete
 }
 
 clone ()

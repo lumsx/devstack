@@ -502,6 +502,8 @@ meant to be user-facing, the "homepage" may be the API root.
 +---------------------+-------------------------------------+
 | Service             | URL                                 |
 +=====================+=====================================+
+| Panel Frontend      | http://localhost:3030/              |
++---------------------+-------------------------------------+
 | Credentials         | http://localhost:18150/api/v2/      |
 +---------------------+-------------------------------------+
 | Catalog/Discovery   | http://localhost:18381/api-docs/    |

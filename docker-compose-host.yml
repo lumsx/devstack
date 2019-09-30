@@ -41,11 +41,15 @@ services:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
       - ${DEVSTACK_WORKSPACE}/edly-wp-theme:/var/www/html/wp-content/themes/edly-wp-theme:cached
+  panel_frontend:
+    volumes:
+      - ${DEVSTACK_WORKSPACE}/edly-panel-frontend:/var/www/html/edly-panel-frontend:cached
+      - panel_node_modules:/var/www/html/edly-panel-frontend/node_modules
 
-      
 volumes:
   credentials_node_modules:
   discovery_node_modules:
   ecommerce_node_modules:
   edxapp_node_modules:
   gradebook_node_modules:
+  panel_node_modules:

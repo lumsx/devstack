@@ -254,7 +254,15 @@ services:
       - mysql
     ports:
       - "8888:80"
-      
+
+  panel_frontend:
+    command: bash -c 'npm install && npm run start'
+    container_name: edx.devstack.panel_frontend
+    working_dir: '/var/www/html/edly-panel-frontend'
+    image: node:10
+    ports:
+      - "3030:3030"
+
 volumes:
   discovery_assets:
   edxapp_lms_assets:
