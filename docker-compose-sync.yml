@@ -23,6 +23,9 @@ services:
     volumes:
       - wordpress-sync:/var/www/html/wp-content/plugins/edly-wp-plugin:nocopy
       - wordpress-sync:/var/www/html/wp-content/themes/edly-wp-theme:nocopy
+  panel_frontend:
+    volumes:
+      - panel_frontend-sync:/var/www/html/edly-panel-frontend:cached
 
 volumes:
   credentials-sync:
@@ -36,4 +39,6 @@ volumes:
   forum-sync:
     external: true
   wordpress-sync:
+    external: true
+  panel_frontend-sync:
     external: true
