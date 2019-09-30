@@ -51,4 +51,5 @@ volumes:
   discovery_node_modules:
   ecommerce_node_modules:
   edxapp_node_modules:
+  gradebook_node_modules:
   panel_node_modules:
