@@ -257,7 +257,7 @@ services:
 
   panel_frontend:
     command: bash -c 'npm install && npm run start'
-    container_name: edx.devstack.panel_frontend
+    container_name: edly.devstack.panel_frontend
     working_dir: '/var/www/html/edly-panel-frontend'
     image: node:10
     ports:
