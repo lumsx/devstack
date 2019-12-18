@@ -283,38 +283,64 @@ To load the wordpress conifguration dump, you need ``All-in-one`` WordPress plug
 
 Setup WordPress Single Sing On
 ------------------------------
-To setup the single sing on(SSO) on WordPress. Follow the below steps
-1.  .. code:: sh
+To setup the single sing on(SSO) on WordPress.  Follow the below steps
+
+1. Open WordPress Shell
+
+.. code:: sh
 
         make wordpress-shell
-
+        
 2. Open `wp-config.php` file
 
-        apt update
-        apt install nano
-        nano wp-config.php
+.. code:: sh
 
-3. Past the below code and save file .. code:: sh
+        apt update
+        
+        apt install nano
+        
+        nano wp-config.php
+        
+
+3. Past the below code and save file 
+
+.. code:: sh
 
         define( 'EDLY_SSO_CLIENT_ID', 'edly-wordpress-key' );
+        
         define( 'EDLY_SSO_CLIENT_SECRET', 'edly-wordpress-secret' );
+        
         define( 'EDLY_SSO_AUTHORIZE_ENDPOINT', 'http://edx.devstack.lms:18000/oauth2/authorize' );
+        
         define( 'EDLY_SSO_ACCESS_TOKEN_URL', 'http://edx.devstack.lms:18000/oauth2/access_token' );
+        
         define( 'EDLY_SSO_SCOPE', 'openid+profile+email+permissions' );
+        
         define( 'EDLY_SSO_REDIRECT_URL', 'http://localhost:8888' );
+        
         define( 'EDLY_SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://localhost:18000/oauth2' );
 
 
 4. Go to `Django Admin` -> `Oauth2` -> `Clients`
+
 - Add new client.
+
 - Select `discovery_worker` in Users field
+
 - Add `edly-wordpress` in Name field
+
 - Add `http://localhost:8888` in Url field
+
 - Add `http://localhost:8888` in Redirect Uri field
+
 - Add `edly-wordpress-key` in Client Id field
+
 - Add `edly-wordpress-secret` in Client Secret
+
 - Select `Confidential Web applications` in Client type field
+
 - Add `http://localhost:8888/logout` in Logout uri field.
+
 
 5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
 
