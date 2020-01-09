@@ -59,6 +59,19 @@ below, run the following sequence of commands if you want to use the most up-to-
 
 This will stop any running devstack containers, pull the latest images, and then start all of the devstack containers.
 
+Get You SSh Keys Added to Edly
+------------------------------
+
+Please get access to edly's organization prior to setting up edly devstack.
+
+Basically we need ssh keys which are enabled to access the edly's private repos.
+Since at Edly we individually give permissions to our developers so avoid getting access denied error,
+we now mount the default directory of ssh keys on Edly developers system, present at ``$HOME/.ssh:/root/.ssh``
+
+This way a developer can install private edly apps,
+e.g. `pip install git+ssh://git@github.com/edly-io/edly-panel-edx-app.git#egg=edly-panel-app` directly from ``LMS Shell``.
+
+
 Getting Started
 ---------------
 
@@ -290,34 +303,34 @@ To setup the single sing on(SSO) on WordPress.  Follow the below steps
 .. code:: sh
 
         make wordpress-shell
-        
+
 2. Open `wp-config.php` file
 
 .. code:: sh
 
         apt update
-        
-        apt install nano
-        
-        nano wp-config.php
-        
 
-3. Past the below code and save file 
+        apt install nano
+
+        nano wp-config.php
+
+
+3. Past the below code and save file
 
 .. code:: sh
 
         define( 'EDLY_SSO_CLIENT_ID', 'edly-wordpress-key' );
-        
+
         define( 'EDLY_SSO_CLIENT_SECRET', 'edly-wordpress-secret' );
-        
+
         define( 'EDLY_SSO_AUTHORIZE_ENDPOINT', 'http://edx.devstack.lms:18000/oauth2/authorize' );
-        
+
         define( 'EDLY_SSO_ACCESS_TOKEN_URL', 'http://edx.devstack.lms:18000/oauth2/access_token' );
-        
+
         define( 'EDLY_SSO_SCOPE', 'openid+profile+email+permissions' );
-        
+
         define( 'EDLY_SSO_REDIRECT_URL', 'http://localhost:8888' );
-        
+
         define( 'EDLY_SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://localhost:18000/oauth2' );
 
 
