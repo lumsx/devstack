@@ -40,7 +40,8 @@ services:
   wordpress:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edly-wp-plugin:/var/www/html/wp-content/plugins/edly-wp-plugin:cached
-      - ${DEVSTACK_WORKSPACE}/edly-wp-theme:/var/www/html/wp-content/themes/edly-wp-theme:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-lutherx:/var/www/html/wp-content/themes/st-lutherx:cached
+      - ${DEVSTACK_WORKSPACE}/edly-wp-theme/st-normanx:/var/www/html/wp-content/themes/st-normanx:cached
   panel_frontend:
     volumes:
       - ${DEVSTACK_WORKSPACE}/edly-panel-frontend:/var/www/html/edly-panel-frontend:cached
