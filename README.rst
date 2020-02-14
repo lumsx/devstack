@@ -426,6 +426,7 @@ and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
     MKTG_URLS = {
         ...
             "NAV_MENU": "wp-json/edly-wp-routes/nav-menu",
+            "FOOTER": "wp-json/edly-wp-routes/footer",
             "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
         }
 
