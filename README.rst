@@ -204,7 +204,7 @@ After you have done the initial wordpress setup, Do the following steps.
 +-----------------+------------------------------------------+
 | Username        | Password                                 |
 +=================+==========================================+
-| edly_admin      | r8lbReHhVjhoyoS0jBFEqL9tZ3W4d7H0p6B      |
+| edly_admin      | ***********************************      |
 +-----------------+------------------------------------------+
 Node :- This dump does not contain any images you will have to add images to make it look like dev. :)
 
