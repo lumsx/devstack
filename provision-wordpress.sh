@@ -29,8 +29,8 @@ chown www-data:www-data -R all-in-one-wp-migration'
 echo -e "${GREEN} Enable edly-wp-theme...${NC}"
 docker exec -t edx.devstack.wordpress  bash -c '
 cd wp-content/themes/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
-php wp-cli.phar theme get edly-wp-theme --allow-root &&
-php wp-cli.phar theme activate edly-wp-theme --allow-root &&
+php wp-cli.phar theme get st-lutherx --allow-root &&
+php wp-cli.phar theme activate st-lutherx --allow-root &&
 rm -rf wp-cli.phar
 '
 echo -e "${GREEN} Update Wordpress Configurations...${NC}"
@@ -51,5 +51,6 @@ rm -rf wp-cli.phar
 "
 
 echo -e "${GREEN} Requirements ...${NC}"
-cd .. && cd edly-wp-plugin && make test-requirements && cd .. && cd devstack
-cd .. && cd edly-wp-theme && make test-requirements && make requirements && make compile-sass && cd .. && cd devstack
+cd .. && cd edly-wp-plugin && make test-requirements && cd ../devstack
+cd .. && cd edly-wp-theme/st-lutherx && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
+cd .. && cd edly-wp-theme/st-normanx && make test-requirements && make requirements && make compile-sass && make compile-js && cd ../../devstack
