@@ -175,7 +175,6 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
     git checkout develop
     git pull edly develop
-    make dev.provision
 
 12. Go into `ecommerce` directory and check if edly-io remote is added.
 
@@ -197,6 +196,7 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
     git checkout develop
     git pull edly develop
+    cd ../devstack
 
 15. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
