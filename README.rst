@@ -171,7 +171,7 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
 11. Now that edx-platform edly remote has been added, checkout into develop branch and make a pull.
 
-..code:: sh
+.. code:: sh
 
     git checkout develop
     git pull edly develop
@@ -192,7 +192,7 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
 14. Now that ecommerce edly remote has been added, checkout into develop branch and make a pull.
 
-..code:: sh
+.. code:: sh
 
     git checkout develop
     git pull edly develop
@@ -585,7 +585,7 @@ Enable Marketing URLs
 .. code:: sh
 
     make lms-shell
-    vim ../lms.env.json
+    nano ../lms.env.json
 
 and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
 
@@ -599,8 +599,6 @@ and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
             "FOOTER": "wp-json/edly-wp-routes/footer",
             "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
         }
-
-Checking out develop in 
 
 
 Other useful commands
