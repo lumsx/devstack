@@ -198,8 +198,7 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
     git pull edly develop
     cd ../devstack
 
-15. Start the services. This command will mount the repositories under the
-   DEVSTACK\_WORKSPACE directory.
+15. Start the services. This command will mount the repositories under the DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
    Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set each time
