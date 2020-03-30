@@ -75,7 +75,7 @@ e.g. `pip install git+ssh://git@github.com/edly-io/edly-panel-edx-app.git#egg=ed
 Getting Started
 ---------------
 
-All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`_.
+All of the services can be run by following the steps below. For analyticstack, follow `Getting Started on Analytics`.
 
 **NOTE:** Since a Docker-based devstack runs many containers,
 you should configure Docker with a sufficient
@@ -83,28 +83,34 @@ amount of resources. We find that `configuring Docker for Mac`_ with
 a minimum of 2 CPUs and 6GB of memory works well.
 
 
-1. Make a directory for Edly devstack
+1. Make a directory for Edly devstack(preferably in the home directory)
 
 .. code:: sh
 
-    mkdir edly
-    cd edly
+    mkdir ~/workspace/edly-setup
+    cd ~/workspace/edly-setup
 
 2. Make a ``virutalenv`` for edly and activate it.
 
+**NOTE** Ensure that the installed python3 version is python 3.6.5 as the edly panel edx app doesn't work for later
+versions.
+
 .. code:: sh
 
-    virtualenv -p python3 venv
-    source venv/bin/activate
+    virtualenv -p python3 edly_env
+    source edly_env/bin/activate
+    mkdir edly
+    cd edly
 
 3. Clone Edly devstack and checkout ``edly/i`` branch and export ``OPENEDX_RELEASE`` environment variable.
-
+Also, turn off git permission tracking globally.
 .. code:: sh
 
     git clone https://github.com/edly-io/devstack.git
     cd devstack
     git checkout edly/i
     export OPENEDX_RELEASE=ironwood.master
+    git config --global core.fileMode false
 
 4. Install the requirements.
 
@@ -138,7 +144,8 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
    tenants (for multi-tenancy).
 
    **NOTE:** When running the provision command, databases for ecommerce and edxapp
-   will be dropped and recreated.
+   will be dropped and recreated. 
+   Also, Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set.
 
    The username and password for the superusers are both ``edx``. You can access
    the services directly via Django admin at the ``/admin/`` path, or login via
@@ -148,11 +155,55 @@ Be sure to share the cloned directories in the Docker -> Preferences... -> File 
 
     make dev.provision
 
+9. Go into `edx-platform` directory and check if edly-io remote is added.
 
-8. Start the services. This command will mount the repositories under the
+.. code:: sh
+
+    cd ../edx-platform
+    git remote -v
+
+10. If remote is not added, add it.
+
+.. code:: sh
+
+    git remote add edly git@github.com:edly-io/edx-platform.git
+    git remote -v
+
+11. Now that edx-platform edly remote has been added, checkout into develop branch and make a pull.
+
+..code:: sh
+
+    git checkout develop
+    git pull edly develop
+
+12. Go into `ecommerce` directory and check if edly-io remote is added.
+
+.. code:: sh
+
+    cd ../ecommerce
+    git remote -v
+
+13. If remote is not added, add it.
+
+.. code:: sh
+
+    git remote add edly git@github.com:edly-io/ecommerce.git
+    git remote -v
+
+14. Now that ecommerce edly remote has been added, checkout into develop branch and make a pull.
+
+..code:: sh
+
+    git checkout develop
+    git pull edly develop
+    cd ../devstack
+
+15. Start the services. This command will mount the repositories under the
    DEVSTACK\_WORKSPACE directory.
 
    **NOTE:** it may take up to 60 seconds for the LMS to start, even after the ``make dev.up`` command outputs ``done``.
+   Be sure that virtual environment is activated and `OPENEDX_RELEASE` environment variable is set each time
+   this command is run.
 
 .. code:: sh
 
@@ -174,7 +225,13 @@ Gulp should be installed before proceeding further (you may need to skip sudo if
 
     apt-get install php7.2
     curl -s https://getcomposer.org/installer | php
-    mv composer.phar /usr/bin/composer
+    sudo mv composer.phar /usr/bin/composer
+
+**NOTE** If you are on macOS, use following command to move the ``composer.phar`` file.
+
+.. code:: sh
+
+    sudo mv composer.phar /usr/local/bin/composer
 
 
 then install composer in wordpress container.
@@ -200,7 +257,10 @@ then install composer in wordpress container.
     cd /var/www/html/wp-content/plugins/edly-wp-plugin
     composer install
 
-    cd /var/www/html/wp-content/themes/edly-wp-theme
+    cd /var/www/html/wp-content/themes/st-lutherx
+    composer install
+
+    cd /var/www/html/wp-content/themes/st-normanx
     composer install
 
     exit
@@ -222,8 +282,8 @@ then install composer in wordpress container.
 .. code:: sh
 
     cd ..
-    sudo chmod 0777  edly-wp-plugin -R
-    sudo chmod 0777  edly-wp-theme -R
+    sudo chmod -R 0777 edly-wp-plugin
+    sudo chmod -R 0777 edly-wp-theme
     cd devstack
 
 9. Run wordpress provsion.
@@ -293,14 +353,7 @@ To add **Course Additional Fields** follow the steps below:
 2. Go to "Custom Fields" -> "Tools" page.
 3. In "Import Field Groups", select and import ``<devstack>/edly-wp-theme/config-files/acf-export-english.json`` file.
 
-Load WordPress dump for automatic Configurations
-------------------------------------------------
-To load the wordpress conifguration dump, you need ``All-in-one`` WordPress plugin.
-
-1. Go to "All-in-on WP Migration" -> "import" page.
-2. Select "Import from" -> "File" and select ``<devstack>/dump.wpress`` file.
-
-Setup WordPress Single Sing On
+Setup WordPress Single Sign On
 ------------------------------
 To setup the single sing on(SSO) on WordPress.  Follow the below steps
 
@@ -335,12 +388,12 @@ To setup the single sing on(SSO) on WordPress.  Follow the below steps
 
         define( 'EDLY_SSO_SCOPE', 'openid+profile+email+permissions' );
 
-        define( 'EDLY_SSO_REDIRECT_URL', 'http://localhost:8888' );
+        define( 'EDLY_SSO_REDIRECT_URL', 'http://wordpress.edx.devstack.lms:8888' );
 
         define( 'EDLY_SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://localhost:18000/oauth2' );
 
 
-4. Go to `Django Admin` -> `Oauth2` -> `Clients`
+4. Go to `LMS Django Admin` -> `Oauth2` -> `Clients`
 
 - Add new client.
 
@@ -363,11 +416,29 @@ To setup the single sing on(SSO) on WordPress.  Follow the below steps
 
 5. Go to WordPress admin area. Add new page with the name of Logout and select the `Logout` template.
 
+Install edly-panel-edx-app
+--------------------------
+
+Install the edly edx panel app in ``lms-shell`` by following instructions on https://github.com/edly-io/edly-panel-edx-app.
+
 Setup Edly Open edX theme
 -------------------------
 
-1. Go do the edly directory.
-2. Go to devstack directory and get into lms container.
+1. Go to the edly directory.
+2. Clone edly-edx-themes repo in the src directory.
+
+.. code:: sh
+ 
+    https://github.com/edly-io/edly-edx-themes.git
+
+4. Checkout to develop branch if its not already checked out.
+
+5. Copy St-lutherx and st-normanx folders to ``edx/edx-platform/themes`` directory.
+
+Set up Edly Open edX theme for LMS
+**********************************
+
+6. Go to devstack directory and get into lms container.
 
 .. code:: sh
 
@@ -375,37 +446,137 @@ Setup Edly Open edX theme
     make lms-shell
 
 
-3. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container to the following values.
+7. Edit the ``/edx/app/edxapp/lms.env.json`` file in the docker container and set the following 
+variables to the following values.
 
 .. code:: json
 
     "ENABLE_COMPREHENSIVE_THEMING": true,
 
     "COMPREHENSIVE_THEME_DIRS": [
-        "/edx/app/edxapp/edx-platform/themes"
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
     ]
 
-Exit from the container using the ``Ctrl-D`` or ``exit`` command.
-
-4. Run docker-compose restart lms in the ``/edly/edX/devstack`` folder.
-5. Enter the LMS docker shell through ``make lms-shell``. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+8. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
 
 .. code:: sh
 
     paver update_assets
 
 
-6. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
-7. Restart lms container.
+9. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+10. Restart lms container.
 
 .. code:: sh
 
     make lms-restart
 
-8. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
-9. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
-10. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
+11. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
+12. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
+13. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
 
+Set up Edly Open edX theme for Studio
+*************************************
+
+1. Go to devstack directory and get into studio container.
+
+.. code:: sh
+
+    cd devstack
+    make studio-shell
+
+
+2. Edit the ``/edx/app/edxapp/cms.env.json`` file in the docker container and set the following 
+variables to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    "COMPREHENSIVE_THEME_DIRS": [
+        "/edx/app/edxapp/edx-platform/themes",
+        "/edx/src/edly-edx-themes"
+    ]
+
+3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
+
+.. code:: sh
+
+    paver update_assets
+
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+5. Restart studio container.
+
+.. code:: sh
+
+    make studio-restart
+
+6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
+
+Set up Edly Open edX theme for Ecommerce
+****************************************
+
+1. Go to devstack directory and get into ecommerce container.
+
+.. code:: sh
+
+    cd devstack
+    make ecommerce-shell
+
+
+2. Edit the ``/edx/etc/ecommerce.yml`` file in the docker container and set the following 
+variables to the following values.
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
+
+    COMPREHENSIVE_THEME_DIRS:
+    - /edx/src/edly-edx-themes/st-lutherx/ecommerce
+    - /edx/src/edly-edx-themes/st-normanx/ecommerce
+
+3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using these commands.
+
+.. code:: sh
+
+    python manage.py update_assets
+    make requirements
+
+4. Exit the docker shell using ``Ctrl+D`` or ``exit`` command.
+
+5. Restart ecommerce container.
+
+.. code:: sh
+
+    docker-compose restart ecommerce
+
+6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
+7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
+8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx``.
+
+
+Setting up edly panel
+---------------------
+
+1. Make sure all the edly services (Wordpress, LMS, Studio, Ecommerce, Course discovery) have been setup using the 
+edly devstack ironwood branch.
+
+2. Clone edly panel backend locally in a separate folder than edly.
+
+.. code:: sh
+
+    mkdir ~/workspace/edly-panel-backend
+    cd ~/workspace/edly-panel-backend
+
+3. Follow all the steps from https://github.com/edly-io/edly-panel-backend/tree/develop.
+
+4. Follow Step 4 onwards from this link. https://edlyio.atlassian.net/wiki/spaces/PI/pages/297500692/How+to+setup+Edly+Panel
+
+**NOTE** If you have already installed the ``edly-panel-edx-app``, skip step 11.
 
 Enable Marketing URLs
 ---------------------
@@ -419,7 +590,7 @@ Enable Marketing URLs
 
 and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
 
-2. Add the following URLs in ``edx-platform/lms/env/devstack_docker.py``
+2. Add the following URLs in ``edx-platform/lms/envs/devstack_docker.py``
 
 .. code:: python
 
@@ -429,6 +600,8 @@ and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
             "FOOTER": "wp-json/edly-wp-routes/footer",
             "ZENDESK-WIDGET": "wp-json/edly-wp-routes/edly-zendesk-widget"
         }
+
+Checking out develop in 
 
 
 Other useful commands
