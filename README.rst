@@ -20,7 +20,7 @@ boot2docker) are *not* supported.
 `Docker for Windows`_ may work but has not been tested and is *not* supported.
 
 
-**NOTE:** After installing docker, user must be added to user group ``docker``
+**NOTE:** After installing docker, user must be added to user group ``docker`` (Not required for MAC)
 
 .. code:: sh
 
@@ -104,6 +104,7 @@ versions.
 
 3. Clone Edly devstack and checkout ``edly/i`` branch and export ``OPENEDX_RELEASE`` environment variable.
 Also, turn off git permission tracking globally.
+
 .. code:: sh
 
     git clone https://github.com/edly-io/devstack.git
@@ -243,12 +244,14 @@ variables to the following values.
 
 .. code:: json
 
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
     "COMPREHENSIVE_THEME_DIRS": [
         "/edx/app/edxapp/edx-platform/themes",
         "/edx/src/edly-edx-themes"
     ]
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
 
 8. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
 
@@ -267,6 +270,35 @@ variables to the following values.
 11. Go to http://localhost:18000/admin and login using ``edx`` as username and ``edx`` as password.
 12. Go to http://localhost:18000/admin/sites/site/ and add a new site with values domain as ``localhost:18000`` and display name as ``st-lutherx``.
 13. Go to http://localhost:18000/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18000`` and Theme dir name as ``st-lutherx``.
+14. Go to http://localhost:18000/admin/site_configuration/siteconfiguration/ and add a new site configuration with following site config values and mark it enabled.
+
+**Site:** ``http://localhost:18000``
+
+**Values:**
+
+.. code:: json
+
+    {
+      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
+      "SERVICES_COOKIE_EXPIRY":"360",
+      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
+      "COLORS":{
+        "primary":"#3E99D4",
+        "secondary":"#3E99D4"
+      },
+      "FONTS":{
+        "base-font":"Open Sans, sans-serif",
+        "heading-font":"Open Sans, sans-serif",
+        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      },
+      "BRANDING":{
+        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
+        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
+        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
+      }
+    }
+
+For more details see `Site configurations`_
 
 Set up Edly Open edX theme for Studio
 *************************************
@@ -284,12 +316,14 @@ variables to the following values.
 
 .. code:: json
 
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
     "COMPREHENSIVE_THEME_DIRS": [
         "/edx/app/edxapp/edx-platform/themes",
         "/edx/src/edly-edx-themes"
     ]
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true,
 
 3. Update assets in the docker shell from the ``/edx/app/edxapp/edx-platform`` folder using this command.
 
@@ -308,6 +342,35 @@ variables to the following values.
 6. Go to http://localhost:18010/admin and login using ``edx`` as username and ``edx`` as password.
 7. Go to http://localhost:18010/admin/sites/site/ and add a new site with values domain as ``localhost:18010`` and display name as ``st-lutherx``.
 8. Go to http://localhost:18010/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18010`` and Theme dir name as ``st-lutherx``.
+9. Go to http://localhost:18010/admin/site_configuration/siteconfiguration/ and add a new site configuration with following site config values and mark it enabled.
+
+**Site:** ``http://localhost:18010``
+
+**Values:**
+
+.. code:: json
+
+    {
+      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
+      "SERVICES_COOKIE_EXPIRY":"360",
+      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
+      "COLORS":{
+        "primary":"#3E99D4",
+        "secondary":"#3E99D4"
+      },
+      "FONTS":{
+        "base-font":"Open Sans, sans-serif",
+        "heading-font":"Open Sans, sans-serif",
+        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      },
+      "BRANDING":{
+        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
+        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
+        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
+      }
+    }
+
+For more details see `Site configurations`_
 
 Set up Edly Open edX theme for Ecommerce
 ****************************************
@@ -325,11 +388,13 @@ variables to the following values.
 
 .. code:: json
 
-    "ENABLE_COMPREHENSIVE_THEMING": true,
-
     COMPREHENSIVE_THEME_DIRS:
     - /edx/src/edly-edx-themes/st-lutherx/ecommerce
     - /edx/src/edly-edx-themes/st-normanx/ecommerce
+
+.. code:: json
+
+    "ENABLE_COMPREHENSIVE_THEMING": true
 
 3. Update assets in the docker shell from the ``/edx/app/ecommerce/ecommerce`` folder using these commands.
 
@@ -348,7 +413,40 @@ variables to the following values.
 
 6. Go to http://localhost:18130/admin and login using ``edx`` as username and ``edx`` as password.
 7. Go to http://localhost:18130/admin/sites/site/ and add a new site with values domain as ``localhost:18130`` and display name as ``st-lutherx``.
-8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx``.
+8. Go to http://localhost:18130/admin/theming/sitetheme/ and add a new theme with values site as ``localhost:18130`` and Theme dir name as ``st-lutherx-ecommerce``.
+9. Go to http://localhost:18130/admin/core/siteconfiguration/ and edit the following value of site configuration.
+
+**Edly client theme branding settings:**
+
+.. code:: json
+
+    {
+      "SERVICES_NOTIFICATIONS_COOKIE_DOMAIN":".edx.devstack.lms",
+      "SERVICES_COOKIE_EXPIRY":"360",
+      "SERVICES_NOTIFICATIONS_URL":"http://panel.backend.dev.edly.com:9999/api/v1/all_services_notifications/",
+      "COLORS":{
+        "primary":"#3E99D4",
+        "secondary":"#3E99D4"
+      },
+      "FONTS":{
+        "base-font":"Open Sans, sans-serif",
+        "heading-font":"Open Sans, sans-serif",
+        "font-path":"https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      },
+      "BRANDING":{
+        "logo":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo.png",
+        "logo-white":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/logo-white.png",
+        "favicon":"https://edly-cloud-static-assets.s3.amazonaws.com/staging/favicon.ico"
+      }
+    }
+
+For more details see `Site configurations`_
+
+10. Get into ecommerce container and run the following command.
+
+.. code:: sh
+
+    ./manage.py migrate core
 
 
 WordPress Setup
@@ -607,8 +705,8 @@ and set the ``ENABLE_MKTG_SITE`` feature flag to ``True``.
 Enable Course Creation
 ----------------------
 
-Go to ``<devstack-dir>/edx-platform/cms/envs/common.py`` and add
-the following code to ``FEATURES`` dictionary.
+Go to ``<devstack-dir>/edx-platform/cms/envs/common.py`` and edit
+the following value in ``FEATURES`` dictionary.
 
 .. code:: python
 
@@ -1494,7 +1592,7 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Docker Hub: https://hub.docker.com/
 .. _Pycharm Integration documentation: docs/pycharm_integration.rst
 .. _devpi documentation: docs/devpi.rst
-.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/testing.rst#running-python-unit-tests
+.. _edx-platform testing documentation: https://github.com/edx/edx-platform/blob/master/docs/guides/testing/testing.rst#running-python-unit-tests
 .. _docker-sync: #improve-mac-osx-performance-with-docker-sync
 .. _docker-ce: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 .. |Build Status| image:: https://travis-ci.org/edx/devstack.svg?branch=master
@@ -1507,3 +1605,4 @@ GitHub issue which explains the `current status of implementing delegated consis
 .. _Python virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/#lower-level-virtualenv
 .. _Running analytics acceptance tests in docker: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/running_acceptance_tests_in_docker.html
 .. _Troubleshooting docker analyticstack: http://edx-analytics-pipeline-reference.readthedocs.io/en/latest/troubleshooting_docker_analyticstack.html
+.. _Site configurations: https://edlyio.atlassian.net/wiki/spaces/PI/pages/478707717/How+to+update+client+branding+using+admin+site+configurations
