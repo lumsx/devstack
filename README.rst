@@ -548,51 +548,43 @@ and then run the provision again.
         "SESSION_COOKIE_DOMAIN": ".edx.devstack.lms"
 
 
-To setup **Wordpress Pages** (Home, Blog, Courses, Instructors, About, Contact, FAQ) go to Wordpress panel and do the following steps for each page
+To setup **Wordpress** you need to login with **Super Admin** user and then follow these steps:
 
-- Go to "Pages" -> "Add New" page.
-- Add page title.
-- In "Page Attributes" section and click on "Template" select field. Select the appropriate template for the page.
-- Publish the Page.
-- Now click on "Edit with Elementor" button.
-- On Elementor page, add any new templates or use existing ones for widgets if required, apply required changes (Images and sections) and click "Publish".
+#. Add **Site Logo** and **Favicon** from `Appearance > Customize > Site Identity`
+#. Add **footer logo**, **Zendesk widget code**, **short description**, **social media Links**, **Hide Footer Pages** and **Copyright Text** from `Appearance > Customize > Footer`
+#. Go to `Custom Fields > Tools` and import **Advanced Custom Fields** `acf-export-english.json` from https://github.com/edly-io/edly-wp-theme/blob/develop/st-normanx/config-files/acf-export-english.json/
+    | (Note: Use relative `.json` file for relevant theme and language)
+#. Goto `Appearance > Menus` and create these menus with your required Pages and Edly WP Integration options then checked the Display Location as **Primary**, **Footer Menu 1** or **Footer Menu 2** *(Primary menu is mandatory)*
+#. Publish your **Home** page using these steps:
+    - Go to `Pages > Add New page`
+    - Add page title
+    - Select **Elementor Full Width** template from **Template** select field
+    - Publish the page
+    - Now click on **Edit with Elementor** button
+    - In the widget area, click on **directory** icon
+    - Go to **My Templates** tab
+    - Click on **Import Template** icon in upper right corner of the section
+    - Add any new template or use existing ones from https://github.com/edly-io/edly-wp-theme/tree/develop/st-normanx/config-files
+    - Click on **Insert** button for `Home` template that we have just imported
+    - Click **Publish** and **EXIT TO DASHBOARD** from top left side menu icon
 
-Now your page is published.
+    | Now you can repeat above mentioned steps for other pages you want to setup like Courses, Blog, About, Contact, FAQs etc.
+    | *(Note: Home, courses and Blog pages are mandatory)*
 
-Steps to **setup ``Home``** page are shown below for explainatory purposes.
+#. To set the landing page as **default home page**, perform these following steps:
+    - Go to `Appearance > Customize`
+    - Click on **Homepage settings**
+    - Select **A static page** option
+    - Select **Home** in Homepage dropdown
+    - Select **Blog** in Posts page dropdown
+    - Click publish
 
-1. Log into WordPress admin panel.
-2. Go to "All Pages" -> "Add New" page.
-3. Set the title "Home".
-4. Select "Home" template from "Template" select field.
-5. Click on "Edit with Elementor" button.
-6. In the widget area, click on ``directory`` icon.
-7. Go to "My Template" tab.
-8. Click on "Import Template" icon in upper left corner of the section
-9. Now select ``<devstack-dir>/edly-wp-theme/theme-name/config-files/elementor-home.json`` file and import it.
-10. Click on "Insert" button for ``Home`` template that we have just imported.
-11. Click on "Edit Section" icon of the first widget appeared.
-12. From the sidebar, go to "style" tab and upload an image of your choice.
-13. Click on "Publish" button to save changes in Elementor.
-14. Click on "Exit to Dashboard" from side menu.
-15. Publish the page.
+    | *(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
 
-Now we can repeat the steps for the pages we want to setup.
-
-To set the Home page we just setup as **default home page** perform the following steps.
-
-1. Log into WordPress admin panel.
-2. Go to "Appearance" -> "Customize" page.
-3. Click on "Homepage settings"
-4. Select "A static page" option.
-5. Select "Home" in Homepage field.
-6. Click publish.
-
-To add **Course Additional Fields** follow the steps below:
-
-1. Log into WordPress admin panel.
-2. Go to "Custom Fields" -> "Tools" page.
-3. In "Import Field Groups", select and import ``<devstack>/edly-wp-theme/config-files/acf-export-english.json`` file.
+Setup WordPress Multisite
+-------------------------
+Here is the link to setup WordPress multisite:
+https://edlyio.atlassian.net/wiki/spaces/PI/pages/645136408/WordPress+Setup+Guide#Enable-WordPress-Multisites%3A
 
 Setup WordPress Single Sign On
 ------------------------------
