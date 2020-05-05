@@ -558,6 +558,7 @@ To setup **Wordpress** you need to login with **Super Admin** user and then foll
 #. Publish your **Home** page using these steps:
     - Go to `Pages > Add New page`
     - Add page title
+    - Select **Elementor Full Width** template from **Template** select field
     - Publish the page
     - Now click on **Edit with Elementor** button
     - In the widget area, click on **directory** icon
