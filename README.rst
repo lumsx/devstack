@@ -550,11 +550,12 @@ and then run the provision again.
 
 To setup **Wordpress** you need to login with **Super Admin** user and then follow these steps:
 
-- Add **Site Logo** and **Favicon** from `Appearance > Customize > Site Identity`
-- Add **footer logo**, **Zendesk widget code**, **short description**, **social media Links**, **Hide Footer Pages** and **Copyright Text** from `Appearance > Customize > Footer`
-- Go to `Custom Fields > Tools` and import **Advanced Custom Fields** `acf-export-english.json` from https://github.com/edly-io/edly-wp-theme/blob/develop/st-normanx/config-files/acf-export-english.json/ (Use relative `.json` file for relevant theme and language)
-- Goto `Appearance > Menus` and create these menus with your required Pages and Edly WP Integration options then checked the Display Location as **Primary**, **Footer Menu 1** or **Footer Menu 2** *(Primary menu is mandatory)*
-- Publish your **Home** page using these steps:
+#. Add **Site Logo** and **Favicon** from `Appearance > Customize > Site Identity`
+#. Add **footer logo**, **Zendesk widget code**, **short description**, **social media Links**, **Hide Footer Pages** and **Copyright Text** from `Appearance > Customize > Footer`
+#. Go to `Custom Fields > Tools` and import **Advanced Custom Fields** `acf-export-english.json` from https://github.com/edly-io/edly-wp-theme/blob/develop/st-normanx/config-files/acf-export-english.json/
+    | (Note: Use relative `.json` file for relevant theme and language)
+#. Goto `Appearance > Menus` and create these menus with your required Pages and Edly WP Integration options then checked the Display Location as **Primary**, **Footer Menu 1** or **Footer Menu 2** *(Primary menu is mandatory)*
+#. Publish your **Home** page using these steps:
     - Go to `Pages > Add New page`
     - Add page title
     - Publish the page
@@ -566,10 +567,10 @@ To setup **Wordpress** you need to login with **Super Admin** user and then foll
     - Click on **Insert** button for `Home` template that we have just imported
     - Click **Publish** and **EXIT TO DASHBOARD** from top left side menu icon
 
-Now we can repeat above mentioned steps for other pages you want to setup like Courses, Blog, About, Contact, FAQs etc.
-*(Note: Home, courses and Blog pages are mandatory)*
+    | Now you can repeat above mentioned steps for other pages you want to setup like Courses, Blog, About, Contact, FAQs etc.
+    | *(Note: Home, courses and Blog pages are mandatory)*
 
-- To set the landing page as **default home page**, perform these following steps:
+#. To set the landing page as **default home page**, perform these following steps:
     - Go to `Appearance > Customize`
     - Click on **Homepage settings**
     - Select **A static page** option
@@ -577,8 +578,12 @@ Now we can repeat above mentioned steps for other pages you want to setup like C
     - Select **Blog** in Posts page dropdown
     - Click publish
 
-*(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
+    | *(Note: In dropdown your created pages would be listed here, you can set any page as your Home or Blog page)*
 
+Setup WordPress Multisite
+-------------------------
+Here is the link to setup WordPress multisite:
+https://edlyio.atlassian.net/wiki/spaces/PI/pages/645136408/WordPress+Setup+Guide#Enable-WordPress-Multisites%3A
 
 Setup WordPress Single Sign On
 ------------------------------
