@@ -36,11 +36,11 @@ repos=(
     "https://github.com/edx/gradebook.git"
 )
 
-edly_repos=(
-    "https://github.com/edly-io/edly-wp-plugin.git"
-    "https://github.com/edly-io/edly-wp-theme.git"
-    "https://github.com/edly-io/edly-edx-themes.git"
-    "https://github.com/edly-io/edly-panel-frontend.git"
+lumsx_repos=(
+    "git@github.com:lumsx/edly-wp-plugin.git"
+    "git@github.com:lumsx/edly-wp-theme.git"
+    "git@github.com:lumsx/edly-edx-themes.git"
+    "git@github.com:lumsx/edly-panel-frontend.git"
 )
 
 
@@ -117,7 +117,7 @@ _checkout_and_update_branch ()
 
 clone ()
 {
-    _clone "${repos[@]}" "${edly_repos[@]}"
+    _clone "${repos[@]}" "${lumsx_repos[@]}"
     _checkout "${repos[@]}"
 }
 
@@ -129,7 +129,7 @@ clone_private ()
 reset ()
 {
     currDir=$(pwd)
-    for repo in "${repos[@]}" "${edly_repos[@]}"
+    for repo in "${repos[@]}" "${lumsx_repos[@]}"
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
@@ -146,7 +146,7 @@ reset ()
 status ()
 {
     currDir=$(pwd)
-    for repo in ["${repos[@]}" "${edly_repos[@]}"]
+    for repo in ["${repos[@]}" "${lumsx_repos[@]}"]
     do
         [[ $repo =~ $name_pattern ]]
         name="${BASH_REMATCH[1]}"
