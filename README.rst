@@ -69,7 +69,7 @@ Since at Edly we individually give permissions to our developers so avoid gettin
 we now mount the default directory of ssh keys on Edly developers system, present at ``$HOME/.ssh:/root/.ssh``
 
 This way a developer can install private edly apps,
-e.g. `pip install git+ssh://git@github.com/edly-io/edly-panel-edx-app.git#egg=edly-panel-app` directly from ``LMS Shell``.
+e.g. `pip install git+ssh://git@github.com/lumsx/edly-panel-edx-app.git#egg=edly-panel-app` directly from ``LMS Shell``.
 
 
 Getting Started
